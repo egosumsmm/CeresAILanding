@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
@@ -8,6 +8,15 @@ import { Input } from '@/components/ui/input';
 const EmailSignup: React.FC = () => {
   const [email, setEmail] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showCursor, setShowCursor] = useState(true);
+  
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setShowCursor(prev => !prev);
+    }, 500);
+    
+    return () => clearInterval(interval);
+  }, []);
   
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -24,7 +33,7 @@ const EmailSignup: React.FC = () => {
     setTimeout(() => {
       setIsSubmitting(false);
       setEmail('');
-      toast.success('Thank you for joining! We\'ll be in touch soon.');
+      toast.success('Access granted. Welcome to CeresAI beta.');
     }, 1500);
   };
   
@@ -37,15 +46,25 @@ const EmailSignup: React.FC = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
       >
-        <div className="flex bg-white rounded-lg p-1.5 overflow-hidden">
-          <Input
-            type="email"
-            placeholder="Enter your email address"
-            className="flex-grow border-0 focus-visible:ring-0 focus-visible:ring-offset-0"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
+        <div className="flex bg-card rounded-lg p-1.5 overflow-hidden neon-border">
+          <div className="flex-grow relative">
+            <Input
+              type="email"
+              placeholder=""
+              className="flex-grow terminal-input border-0 focus-visible:ring-0 focus-visible:ring-offset-0 bg-card pl-6"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+            <div className="absolute top-0 left-0 h-full flex items-center pl-2 text-ceres-purple">
+              &gt;
+            </div>
+            {email === '' && showCursor && (
+              <div className="absolute top-0 left-6 h-full flex items-center">
+                <div className="h-5 w-2 bg-ceres-purple-light animate-pulse"></div>
+              </div>
+            )}
+          </div>
           <Button 
             type="submit"
             className="bg-ceres-purple hover:bg-ceres-purple-dark text-white"
@@ -57,19 +76,19 @@ const EmailSignup: React.FC = () => {
                   <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                   <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                 </svg>
-                Processing...
+                Accessing...
               </span>
             ) : 'Join Beta'}
           </Button>
         </div>
       </motion.form>
       <motion.p 
-        className="text-center text-sm text-ceres-neutral-dark mt-2"
+        className="text-center text-sm text-ceres-neutral mt-2"
         initial={{ opacity: 0 }}
         animate={{ opacity: 0.9 }}
         transition={{ delay: 0.3 }}
       >
-        Get early access to your AI companion
+        Enter clearance code for AI companion access
       </motion.p>
     </div>
   );

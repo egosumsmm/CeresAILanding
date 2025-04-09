@@ -3,27 +3,27 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Sora:wght@300;400;500;600;700&family=Orbitron:wght@400;500;600&display=swap');
 
 @layer base {
   :root {
-    --background: 260 25% 98%;
-    --foreground: 260 20% 12%;
+    --background: 260 20% 8%;
+    --foreground: 260 10% 90%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 260 20% 12%;
+    --card: 260 20% 12%;
+    --card-foreground: 260 10% 90%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 260 20% 12%;
+    --popover: 260 20% 12%;
+    --popover-foreground: 260 10% 90%;
 
     --primary: 262 83% 65%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 260 25% 95%;
-    --secondary-foreground: 260 20% 12%;
+    --secondary: 260 25% 20%;
+    --secondary-foreground: 260 10% 90%;
 
-    --muted: 260 25% 95%;
-    --muted-foreground: 260 10% 45%;
+    --muted: 260 25% 20%;
+    --muted-foreground: 260 10% 60%;
 
     --accent: 262 83% 80%;
     --accent-foreground: 260 20% 12%;
@@ -31,8 +31,8 @@
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 260 20% 92%;
-    --input: 260 20% 92%;
+    --border: 260 20% 20%;
+    --input: 260 20% 20%;
     --ring: 262 83% 65%;
 
     --radius: 0.75rem;
@@ -43,22 +43,22 @@
   }
   
   body {
-    @apply bg-background text-foreground font-sans;
+    @apply bg-background text-foreground;
     font-family: 'Inter', sans-serif;
   }
   
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Outfit', sans-serif;
+    font-family: 'Sora', sans-serif;
   }
 }
 
 @layer components {
   .gradient-bg {
-    @apply bg-gradient-to-br from-ceres-purple/50 via-ceres-blue/30 to-ceres-purple/20;
+    @apply bg-gradient-to-br from-ceres-purple/30 via-ceres-blue/20 to-background;
   }
   
   .avatar-card {
-    @apply relative rounded-2xl overflow-hidden bg-white shadow-lg hover:shadow-xl transition-all duration-300 border border-ceres-neutral-light;
+    @apply relative rounded-2xl overflow-hidden bg-card shadow-lg hover:shadow-xl transition-all duration-300 border border-ceres-purple/20;
   }
   
   .emoji-bg {
@@ -66,7 +66,29 @@
   }
   
   .feature-card {
-    @apply p-6 rounded-2xl bg-white shadow-md hover:shadow-lg transition-all duration-300 border border-ceres-neutral-light;
+    @apply p-6 rounded-2xl bg-card shadow-md hover:shadow-lg transition-all duration-300 border border-ceres-purple/20;
+  }
+  
+  .neon-border {
+    @apply border border-ceres-purple/50 shadow-[0_0_15px_rgba(123,87,194,0.3)];
+  }
+  
+  .terminal-input {
+    @apply bg-background border border-ceres-purple/30 text-foreground font-mono;
+  }
+  
+  .hologram {
+    @apply relative overflow-hidden;
+  }
+  
+  .hologram::before {
+    content: '';
+    @apply absolute inset-0 bg-gradient-to-t from-ceres-purple/20 to-transparent opacity-60 z-10 pointer-events-none;
+  }
+  
+  .hologram::after {
+    content: '';
+    @apply absolute inset-0 bg-[url('/grid-overlay.png')] bg-repeat opacity-10 z-20 pointer-events-none;
   }
 }
 
@@ -75,11 +97,76 @@
     @apply bg-gradient-to-r from-ceres-purple to-ceres-blue bg-clip-text text-transparent;
   }
   
+  .text-glow {
+    text-shadow: 0 0 8px rgba(123, 87, 194, 0.6);
+  }
+  
   .glow-effect {
     box-shadow: 0 0 15px rgba(123, 87, 194, 0.3);
   }
   
   .backdrop-blur {
     backdrop-filter: blur(8px);
+  }
+  
+  .grid-bg {
+    background-size: 50px 50px;
+    background-image: 
+      linear-gradient(to right, rgba(123, 87, 194, 0.1) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(123, 87, 194, 0.1) 1px, transparent 1px);
+  }
+  
+  .glitch {
+    position: relative;
+  }
+  
+  .glitch::before,
+  .glitch::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.8;
+  }
+  
+  .glitch::before {
+    animation: glitch-anim-1 0.4s infinite;
+    clip-path: polygon(0 0, 100% 0, 100% 35%, 0 35%);
+    transform: translate(-5px, -5px);
+    @apply text-ceres-pink;
+  }
+  
+  .glitch::after {
+    animation: glitch-anim-2 0.3s infinite;
+    clip-path: polygon(0 65%, 100% 65%, 100% 100%, 0 100%);
+    transform: translate(5px, 5px);
+    @apply text-ceres-blue;
+  }
+  
+  @keyframes glitch-anim-1 {
+    0%, 100% { transform: translate(0); }
+    20% { transform: translate(-2px, 2px); }
+    40% { transform: translate(-2px, -2px); }
+    60% { transform: translate(2px, 2px); }
+    80% { transform: translate(2px, -2px); }
+  }
+  
+  @keyframes glitch-anim-2 {
+    0%, 100% { transform: translate(0); }
+    20% { transform: translate(2px, -2px); }
+    40% { transform: translate(2px, 2px); }
+    60% { transform: translate(-2px, -2px); }
+    80% { transform: translate(-2px, 2px); }
+  }
+  
+  @keyframes flicker {
+    0%, 19.999%, 22%, 62.999%, 64%, 64.999%, 70%, 100% {
+      opacity: 0.99;
+    }
+    20%, 21.999%, 63%, 63.999%, 65%, 69.999% {
+      opacity: 0.4;
+    }
   }
 }
