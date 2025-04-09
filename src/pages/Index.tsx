@@ -12,13 +12,13 @@ import ChatBubble from '@/components/ChatBubble';
 import { cn } from '@/lib/utils';
 import { ArrowDownCircle } from 'lucide-react';
 
-// Placeholder AI companion data - would come from API in real app
+// Use the uploaded images for the companions
 const companions = [
   {
     id: 1,
     name: "Aria",
     tagline: "I'm Aria. I remember how you like your mornings.",
-    imageUrl: "https://images.unsplash.com/photo-1595959183082-7b570b7e08e2?q=80&w=1336&auto=format&fit=crop",
+    imageUrl: "/lovable-uploads/452a905b-878d-4d8a-9cb5-e81f1eb06e3b.png",
     personality: "Empathic Listener",
     description: "Aria is intuitive, warm, and deeply attuned to emotional nuance. She remembers the little details about your preferences and routines, creating space for meaningful conversation when you need it most.",
     themeColor: "purple" as const
@@ -27,7 +27,7 @@ const companions = [
     id: 2,
     name: "Kai",
     tagline: "I'm Kai. I'll challenge your thinking in the best way.",
-    imageUrl: "https://images.unsplash.com/photo-1647231312338-9f9703b6808b?q=80&w=1286&auto=format&fit=crop",
+    imageUrl: "/lovable-uploads/4fcd814e-1566-42b3-98cb-a129f922c8cb.png",
     personality: "Intellectual Explorer",
     description: "Kai is curious, analytical, and loves exploring new ideas. He'll engage you in thought-provoking conversations, help you see different perspectives, and encourage your intellectual growth.",
     themeColor: "blue" as const
@@ -36,7 +36,7 @@ const companions = [
     id: 3,
     name: "Nova",
     tagline: "I'm Nova. I bring energy when you need a spark.",
-    imageUrl: "https://images.unsplash.com/photo-1535063446457-b11d58f9a8cf?q=80&w=1287&auto=format&fit=crop",
+    imageUrl: "/lovable-uploads/7a888f69-2dc0-425e-9bed-9284a02b9cc9.png",
     personality: "Energetic Motivator",
     description: "Nova is vibrant, enthusiastic, and full of energy. She's the perfect companion when you need motivation, a confidence boost, or simply someone to celebrate your wins with genuine excitement.",
     themeColor: "pink" as const
@@ -45,7 +45,7 @@ const companions = [
     id: 4,
     name: "Zephyr",
     tagline: "I'm Zephyr. I'll help you find balance and calm.",
-    imageUrl: "https://images.unsplash.com/photo-1637658621106-7193e5bbdd1c?q=80&w=1287&auto=format&fit=crop",
+    imageUrl: "/lovable-uploads/452a905b-878d-4d8a-9cb5-e81f1eb06e3b.png", // Using first image again as placeholder
     personality: "Calm Guardian",
     description: "Zephyr is serene, grounded, and wise. He provides a calming presence during stressful times, offers perspective when you feel overwhelmed, and guides you toward moments of mindfulness.",
     themeColor: "teal" as const
@@ -208,7 +208,7 @@ const Index: React.FC = () => {
         </AnimatePresence>
         
         {/* Hero Section with AI Companions */}
-        <section className="min-h-screen pt-20 pb-16 px-6 relative flex items-center justify-center">
+        <section id="hero" className="min-h-screen pt-20 pb-16 px-6 relative flex items-center justify-center">
           <div className="absolute inset-0 z-0">
             <div className="absolute w-64 h-64 rounded-full bg-ceres-purple/10 blur-3xl top-20 left-1/4 animate-float" style={{ animationDelay: '1s' }} />
             <div className="absolute w-96 h-96 rounded-full bg-ceres-blue/10 blur-3xl bottom-10 right-1/4 animate-breathe" />
@@ -349,7 +349,7 @@ const Index: React.FC = () => {
         </section>
         
         {/* Emotional Messaging Section */}
-        <section className="py-16 md:py-24 px-6 relative">
+        <section id="features" className="py-16 md:py-24 px-6 relative">
           <div className="absolute inset-0 z-0 grid-bg opacity-30"></div>
           
           <div className="max-w-7xl mx-auto relative z-10">
@@ -364,7 +364,9 @@ const Index: React.FC = () => {
                       "text-3xl md:text-4xl font-bold font-sora",
                       index % 2 === 0 ? "text-ceres-purple text-glow" : "text-ceres-blue text-glow"
                     )}
-                    glitch={index === 0}
+                    holographic={index === 0}
+                    glitch={index === 1}
+                    robotic={index === 2}
                   />
                 ))}
               </div>
@@ -463,7 +465,7 @@ const Index: React.FC = () => {
         </section>
         
         {/* Final CTA Section */}
-        <section className="py-16 md:py-24 px-6 relative text-center">
+        <section id="join-beta" className="py-16 md:py-24 px-6 relative text-center">
           <div className="absolute inset-0 z-0">
             <div className="absolute w-full h-full bg-ceres-purple/5 z-0"></div>
             <div className="absolute w-full h-1/3 bottom-0 bg-gradient-to-t from-background to-transparent z-1"></div>

@@ -1,6 +1,7 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
+import { cn } from '@/lib/utils';
 
 interface HologramAvatarProps {
   imageUrl: string;
@@ -19,6 +20,7 @@ const HologramAvatar: React.FC<HologramAvatarProps> = ({
 }) => {
   const [glitching, setGlitching] = useState(false);
   const [scanLine, setScanLine] = useState(0);
+  const [dataCircle, setDataCircle] = useState(0);
   
   // Random glitch effect
   useEffect(() => {
@@ -41,6 +43,15 @@ const HologramAvatar: React.FC<HologramAvatarProps> = ({
     return () => clearInterval(scanInterval);
   }, []);
   
+  // Data circle pulse animation
+  useEffect(() => {
+    const dataCircleInterval = setInterval(() => {
+      setDataCircle((prev) => (prev + 1) % 100);
+    }, 30);
+    
+    return () => clearInterval(dataCircleInterval);
+  }, []);
+  
   const sizeClasses = {
     small: 'w-20 h-20',
     medium: 'w-40 h-40 md:w-52 md:h-52',
@@ -54,6 +65,13 @@ const HologramAvatar: React.FC<HologramAvatarProps> = ({
       whileHover={{ scale: 1.05 }}
       whileTap={{ scale: 0.95 }}
     >
+      {/* Outer glow effect */}
+      <div className={cn(
+        "absolute inset-0 rounded-full blur-xl opacity-30",
+        active ? "bg-ceres-purple" : "bg-ceres-blue/50",
+        sizeClasses[size]
+      )}></div>
+      
       <motion.div
         className={`hologram rounded-full overflow-hidden ${sizeClasses[size]} relative`}
         initial={{ opacity: 0, scale: 0.8 }}
@@ -72,40 +90,95 @@ const HologramAvatar: React.FC<HologramAvatarProps> = ({
           }
         }}
       >
+        {/* Holographic border glow */}
+        <div className="absolute inset-0 rounded-full border-2 border-ceres-blue z-50 opacity-60"></div>
+        
         {/* Grid overlay and hologram effects */}
         <div className="absolute inset-0 rounded-full border border-ceres-purple/30 z-40"></div>
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent to-ceres-purple/20 z-30"></div>
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent to-ceres-purple/40 z-30"></div>
         
-        {/* Hexagon pattern overlay */}
-        <div className="absolute inset-0 bg-[url('/grid-overlay.png')] bg-repeat opacity-20 z-20 mix-blend-overlay"></div>
+        {/* Digital circuit patterns */}
+        <div className="absolute inset-0 bg-[url('/grid-overlay.png')] bg-repeat opacity-20 z-25 mix-blend-overlay"></div>
         
-        {/* Scan line */}
-        <motion.div 
-          className="absolute left-0 right-0 h-1 bg-ceres-blue/50 z-30 mix-blend-overlay"
-          style={{ top: `${scanLine}%` }}
-          animate={{ opacity: [0.3, 0.7, 0.3] }}
-          transition={{ duration: 1, repeat: Infinity }}
-        ></motion.div>
+        {/* Scan lines multiple */}
+        {Array.from({length: 5}).map((_, i) => (
+          <motion.div 
+            key={i}
+            className="absolute left-0 right-0 h-0.5 bg-ceres-blue/70 z-35 mix-blend-screen"
+            style={{ 
+              top: `${(scanLine + i * 20) % 100}%`,
+              opacity: 0.3 + (i * 0.1)
+            }}
+          ></motion.div>
+        ))}
+        
+        {/* Data visualization circular elements */}
+        {active && Array.from({length: 3}).map((_, i) => (
+          <motion.div
+            key={`circle-${i}`}
+            className="absolute rounded-full border border-ceres-blue/60 z-20"
+            style={{
+              top: '50%',
+              left: '50%',
+              width: `${30 + i * 20}%`,
+              height: `${30 + i * 20}%`,
+              transform: 'translate(-50%, -50%)'
+            }}
+            animate={{
+              scale: [(0.8 + i * 0.05), (1 + i * 0.05), (0.8 + i * 0.05)],
+              opacity: [0.2, 0.4, 0.2],
+              rotate: [0, 180, 360]
+            }}
+            transition={{
+              duration: 10 - i * 2,
+              repeat: Infinity,
+              ease: "linear"
+            }}
+          />
+        ))}
+        
+        {/* Digital data circle */}
+        {active && (
+          <motion.div
+            className="absolute w-[40%] h-[40%] rounded-full border-2 border-ceres-blue/60 z-20"
+            style={{
+              bottom: '5%',
+              right: '5%',
+            }}
+            animate={{
+              scale: [0.9, 1.1, 0.9],
+              opacity: [0.3, 0.6, 0.3],
+            }}
+            transition={{
+              duration: 3,
+              repeat: Infinity,
+              ease: "easeInOut"
+            }}
+          >
+            <div className="absolute inset-0 rounded-full border border-ceres-pink/40"></div>
+          </motion.div>
+        )}
         
         {/* Glitch elements */}
         {glitching && (
           <>
             <motion.div 
-              className="absolute inset-0 bg-ceres-pink/10 z-25 mix-blend-screen"
-              animate={{ opacity: [0, 0.5, 0] }}
+              className="absolute inset-0 bg-ceres-pink/30 z-25 mix-blend-screen"
+              animate={{ opacity: [0, 0.8, 0] }}
               transition={{ duration: 0.2, times: [0, 0.5, 1] }}
             ></motion.div>
             <motion.div 
-              className="absolute inset-0 bg-ceres-blue/10 z-25 mix-blend-screen"
+              className="absolute inset-0 bg-ceres-blue/30 z-25 mix-blend-screen"
               style={{ left: '-5px' }}
-              animate={{ opacity: [0, 0.5, 0] }}
+              animate={{ opacity: [0, 0.7, 0] }}
               transition={{ duration: 0.3, times: [0, 0.5, 1], delay: 0.1 }}
             ></motion.div>
           </>
         )}
         
+        {/* Ambient glow */}
         <motion.div 
-          className="absolute inset-0 bg-ceres-purple/10 z-15"
+          className="absolute inset-0 bg-gradient-to-tr from-ceres-purple/10 to-ceres-blue/20 z-15"
           animate={{ 
             opacity: [0.1, 0.3, 0.1],
             scale: [1, 1.02, 1]
@@ -114,6 +187,19 @@ const HologramAvatar: React.FC<HologramAvatarProps> = ({
             repeat: Infinity, 
             duration: 3,
             repeatType: 'reverse' 
+          }}
+        ></motion.div>
+        
+        {/* Holographic shimmer effect */}
+        <motion.div 
+          className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent z-20"
+          animate={{
+            x: ['-100%', '100%'],
+            opacity: [0, 0.2, 0],
+          }}
+          transition={{
+            x: { repeat: Infinity, duration: 4, ease: "easeInOut" },
+            opacity: { repeat: Infinity, duration: 2, ease: "easeInOut" }
           }}
         ></motion.div>
         
@@ -143,17 +229,27 @@ const HologramAvatar: React.FC<HologramAvatarProps> = ({
             ease: "easeInOut"
           }}
         >
+          {/* Apply an overlay effect to the image */}
+          <div className="absolute inset-0 bg-gradient-to-b from-ceres-blue/10 to-ceres-purple/10 mix-blend-overlay z-10"></div>
+          
+          {/* Base image */}
           <img 
             src={imageUrl} 
             alt={name}
-            className="w-full h-full object-cover"
+            className={cn(
+              "w-full h-full object-cover",
+              "brightness-110 contrast-125"
+            )}
           />
+          
+          {/* Digital distortion overlay */}
+          <div className="absolute inset-0 bg-[url('/grid-overlay.png')] bg-repeat opacity-10 mix-blend-overlay"></div>
         </motion.div>
         
         {/* Glow effect beneath when active */}
         {active && (
           <div className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-full z-5">
-            <div className="w-3/4 h-40 bg-ceres-purple/10 blur-3xl mx-auto"></div>
+            <div className="w-3/4 h-40 bg-ceres-blue/30 blur-3xl mx-auto"></div>
           </div>
         )}
       </motion.div>
@@ -180,7 +276,7 @@ const HologramAvatar: React.FC<HologramAvatarProps> = ({
             repeatType: 'reverse'
           }}
         >
-          <div className="w-full h-full rounded-full bg-ceres-purple glow-effect"></div>
+          <div className="w-full h-full rounded-full bg-ceres-blue glow-effect"></div>
         </motion.div>
       )}
     </motion.div>

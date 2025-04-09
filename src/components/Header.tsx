@@ -18,6 +18,22 @@ const Header: React.FC = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
   
+  const scrollToSection = (id: string) => {
+    setMobileMenuOpen(false);
+    const element = document.getElementById(id);
+    if (element) {
+      // Add smooth scrolling with offset for the header
+      const headerOffset = 80;
+      const elementPosition = element.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+      
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: "smooth"
+      });
+    }
+  };
+  
   return (
     <>
       <motion.header
@@ -53,10 +69,13 @@ const Header: React.FC = () => {
           </div>
           
           <nav className="hidden md:flex items-center space-x-8">
-            <NavLink href="#features">Features</NavLink>
-            <NavLink href="#why-ceres">Why CeresAI</NavLink>
-            <NavLink href="#companions">Companions</NavLink>
-            <Button className="bg-ceres-purple hover:bg-ceres-purple-dark bg-opacity-80 backdrop-blur-sm border border-ceres-purple/30 text-glow">
+            <NavLink onClick={() => scrollToSection("features")}>Features</NavLink>
+            <NavLink onClick={() => scrollToSection("why-ceres")}>Why CeresAI</NavLink>
+            <NavLink onClick={() => scrollToSection("companions")}>Companions</NavLink>
+            <Button 
+              className="bg-ceres-purple hover:bg-ceres-purple-dark bg-opacity-80 backdrop-blur-sm border border-ceres-purple/30 text-glow"
+              onClick={() => scrollToSection("join-beta")}
+            >
               Join Beta
             </Button>
           </nav>
@@ -83,16 +102,19 @@ const Header: React.FC = () => {
             exit={{ opacity: 0, y: -20 }}
           >
             <div className="flex flex-col space-y-4 items-center">
-              <MobileNavLink href="#features" onClick={() => setMobileMenuOpen(false)}>
+              <MobileNavLink onClick={() => scrollToSection("features")}>
                 Features
               </MobileNavLink>
-              <MobileNavLink href="#why-ceres" onClick={() => setMobileMenuOpen(false)}>
+              <MobileNavLink onClick={() => scrollToSection("why-ceres")}>
                 Why CeresAI
               </MobileNavLink>
-              <MobileNavLink href="#companions" onClick={() => setMobileMenuOpen(false)}>
+              <MobileNavLink onClick={() => scrollToSection("companions")}>
                 Companions
               </MobileNavLink>
-              <Button className="bg-ceres-purple hover:bg-ceres-purple-dark w-full mt-4 bg-opacity-80 backdrop-blur-sm border border-ceres-purple/30 text-glow">
+              <Button 
+                className="bg-ceres-purple hover:bg-ceres-purple-dark w-full mt-4 bg-opacity-80 backdrop-blur-sm border border-ceres-purple/30 text-glow"
+                onClick={() => scrollToSection("join-beta")}
+              >
                 Join Beta
               </Button>
             </div>
@@ -103,10 +125,10 @@ const Header: React.FC = () => {
   );
 };
 
-const NavLink: React.FC<{ href: string; children: React.ReactNode }> = ({ href, children }) => {
+const NavLink: React.FC<{ onClick: () => void; children: React.ReactNode }> = ({ onClick, children }) => {
   return (
-    <motion.a 
-      href={href}
+    <motion.button
+      onClick={onClick}
       className="relative overflow-hidden group"
       whileHover={{ scale: 1.05 }}
     >
@@ -119,24 +141,22 @@ const NavLink: React.FC<{ href: string; children: React.ReactNode }> = ({ href, 
         whileHover={{ scaleX: 1 }}
         transition={{ duration: 0.3 }}
       />
-    </motion.a>
+    </motion.button>
   );
 };
 
-const MobileNavLink: React.FC<{ href: string; onClick: () => void; children: React.ReactNode }> = ({ 
-  href, 
+const MobileNavLink: React.FC<{ onClick: () => void; children: React.ReactNode }> = ({ 
   onClick,
   children 
 }) => {
   return (
-    <motion.a 
-      href={href}
-      className="w-full py-4 border-b border-ceres-purple/20 text-center text-lg font-medium text-ceres-neutral-light hover:text-ceres-purple"
+    <motion.button
       onClick={onClick}
+      className="w-full py-4 border-b border-ceres-purple/20 text-center text-lg font-medium text-ceres-neutral-light hover:text-ceres-purple"
       whileTap={{ scale: 0.95 }}
     >
       {children}
-    </motion.a>
+    </motion.button>
   );
 };
 

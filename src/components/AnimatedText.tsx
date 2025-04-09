@@ -8,6 +8,7 @@ interface AnimatedTextProps {
   className?: string;
   glitch?: boolean;
   robotic?: boolean;
+  holographic?: boolean;
 }
 
 const AnimatedText: React.FC<AnimatedTextProps> = ({ 
@@ -15,8 +16,73 @@ const AnimatedText: React.FC<AnimatedTextProps> = ({
   delay = 0,
   className = "",
   glitch = false,
-  robotic = false
+  robotic = false,
+  holographic = false
 }) => {
+  if (holographic) {
+    const letters = Array.from(text);
+    
+    const container = {
+      hidden: { opacity: 0 },
+      visible: (i = 1) => ({
+        opacity: 1,
+        transition: {
+          staggerChildren: 0.04,
+          delayChildren: delay
+        }
+      })
+    };
+    
+    const child = {
+      visible: {
+        opacity: 1,
+        y: 0,
+        filter: "brightness(1.2)",
+        textShadow: "0 0 8px rgba(100, 149, 237, 0.8)",
+        transition: {
+          type: "spring",
+          damping: 12,
+          stiffness: 200
+        }
+      },
+      hidden: {
+        opacity: 0,
+        y: 20,
+        filter: "brightness(1)",
+        textShadow: "0 0 0px rgba(100, 149, 237, 0)",
+        transition: {
+          type: "spring",
+          damping: 12,
+          stiffness: 200
+        }
+      }
+    };
+    
+    return (
+      <motion.div
+        className={`${className} inline-block text-ceres-blue`}
+        variants={container}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-50px" }}
+      >
+        {letters.map((letter, index) => (
+          <motion.span
+            key={index}
+            variants={child}
+            className={letter === ' ' ? 'inline-block w-2' : 'inline-block'}
+            style={{
+              textShadow: "0 0 8px rgba(100, 149, 237, 0.8)",
+              filter: "brightness(1.2)"
+            }}
+          >
+            {letter === ' ' ? '\u00A0' : letter}
+          </motion.span>
+        ))}
+      </motion.div>
+    );
+  }
+  
   if (robotic) {
     const letters = Array.from(text);
     
