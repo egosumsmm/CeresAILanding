@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -65,7 +64,7 @@ const ChatBubble: React.FC<ChatBubbleProps> = ({
       )}
       
       <div 
-        className={`max-w-[80%] px-4 py-2 rounded-2xl ${
+        className={`max-w-[85%] sm:max-w-[80%] px-3 sm:px-4 py-2 rounded-2xl ${
           sender === 'user' 
             ? 'bg-ceres-purple text-white rounded-br-none' 
             : 'bg-card border border-ceres-purple/30 glow-effect rounded-bl-none'

@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
@@ -53,9 +52,9 @@ const HologramAvatar: React.FC<HologramAvatarProps> = ({
   }, []);
   
   const sizeClasses = {
-    small: 'w-20 h-20',
-    medium: 'w-40 h-40 md:w-52 md:h-52',
-    large: 'w-60 h-60 md:w-80 md:h-80'
+    small: 'w-16 h-16 sm:w-20 sm:h-20',
+    medium: 'w-32 h-32 sm:w-40 sm:h-40 md:w-52 md:h-52',
+    large: 'w-48 h-48 sm:w-60 sm:h-60 md:w-80 md:h-80'
   };
   
   return (

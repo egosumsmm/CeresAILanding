@@ -55,7 +55,7 @@ const EmailSignup: React.FC = () => {
   };
 
   return (
-    <div className="w-full max-w-md mx-auto">
+    <div className="w-full max-w-md mx-auto px-2 sm:px-0">
       <motion.form 
         onSubmit={handleSubmit}
         className="p-1.5 rounded-xl bg-gradient-to-r from-ceres-purple via-ceres-blue to-ceres-pink"

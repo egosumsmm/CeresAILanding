@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '@/components/ui/button';
@@ -38,7 +37,7 @@ const Header: React.FC = () => {
     <>
       <motion.header
         className={cn(
-          "fixed top-0 left-0 right-0 py-4 px-6 z-50 transition-all duration-300",
+          "fixed top-0 left-0 right-0 py-3 sm:py-4 px-4 sm:px-6 z-50 transition-all duration-300",
           isScrolled ? "backdrop-blur-md bg-background/80 shadow-md" : "bg-transparent"
         )}
         initial={{ opacity: 0, y: -20 }}
@@ -96,7 +95,7 @@ const Header: React.FC = () => {
       <AnimatePresence>
         {mobileMenuOpen && (
           <motion.div 
-            className="fixed inset-0 bg-background/95 backdrop-blur-md z-40 md:hidden flex flex-col pt-24 px-6"
+            className="fixed inset-0 bg-background/95 backdrop-blur-md z-40 md:hidden flex flex-col pt-20 sm:pt-24 px-4 sm:px-6"
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}

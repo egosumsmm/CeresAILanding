@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
@@ -6,7 +5,7 @@ import { cn } from '@/lib/utils';
 const Footer: React.FC = () => {
   return (
     <motion.footer
-      className="py-8 px-6 border-t border-ceres-purple/20 relative overflow-hidden"
+      className="py-6 sm:py-8 px-4 sm:px-6 border-t border-ceres-purple/20 relative overflow-hidden"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ delay: 0.5 }}
@@ -29,7 +28,7 @@ const Footer: React.FC = () => {
           </motion.h2>
         </div>
         
-        <div className="flex flex-col md:flex-row items-center space-y-4 md:space-y-0 md:space-x-8">
+        <div className="flex flex-col md:flex-row items-center space-y-3 sm:space-y-4 md:space-y-0 md:space-x-8">
           <a href="#" className="text-ceres-neutral hover:text-ceres-purple transition-colors">Privacy</a>
           <a href="#" className="text-ceres-neutral hover:text-ceres-purple transition-colors">Terms</a>
           <a href="#" className="text-ceres-neutral hover:text-ceres-purple transition-colors">About</a>

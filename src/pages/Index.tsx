@@ -207,7 +207,7 @@ const Index: React.FC = () => {
         </AnimatePresence>
         
         {/* Hero Section with AI Companions */}
-        <section id="hero" className="min-h-screen pt-20 pb-16 px-6 relative flex items-center justify-center">
+        <section id="hero" className="min-h-screen pt-16 sm:pt-20 pb-12 sm:pb-16 px-4 sm:px-6 relative flex items-center justify-center">
           <div className="absolute inset-0 z-0">
             <div className="absolute w-64 h-64 rounded-full bg-ceres-purple/10 blur-3xl top-20 left-1/4 animate-float" style={{ animationDelay: '1s' }} />
             <div className="absolute w-96 h-96 rounded-full bg-ceres-blue/10 blur-3xl bottom-10 right-1/4 animate-breathe" />
@@ -312,7 +312,7 @@ const Index: React.FC = () => {
               </p>
             </motion.div>
             
-            <div className="flex justify-center space-x-8">
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:flex md:justify-center md:space-x-8 gap-4 md:gap-0">
               {companions.map((companion, index) => (
                 <motion.div
                   key={companion.id}
@@ -368,12 +368,12 @@ const Index: React.FC = () => {
         </section>
         
         {/* Emotional Messaging Section */}
-        <section id="features" className="py-16 md:py-24 px-6 relative">
+        <section id="features" className="py-12 sm:py-16 md:py-24 px-4 sm:px-6 relative">
           <div className="absolute inset-0 z-0 grid-bg opacity-30"></div>
           
           <div className="max-w-7xl mx-auto relative z-10">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
-              <div className="space-y-16">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-12 md:gap-16 items-center">
+              <div className="space-y-8 sm:space-y-12 md:space-y-16">
                 {emotionalMessages.map((message, index) => (
                   <AnimatedText
                     key={index}
@@ -451,7 +451,7 @@ const Index: React.FC = () => {
         </section>
         
         {/* Why CeresAI Section */}
-        <section id="why-ceres" className="py-16 md:py-24 px-6 relative">
+        <section id="why-ceres" className="py-12 sm:py-16 md:py-24 px-4 sm:px-6 relative">
           <div className="absolute inset-0 gradient-bg opacity-30 z-0"></div>
           
           <div className="max-w-7xl mx-auto relative z-10">
@@ -468,7 +468,7 @@ const Index: React.FC = () => {
               </p>
             </motion.div>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
               {features.map((feature, index) => (
                 <FeatureCard
                   key={index}
@@ -484,7 +484,7 @@ const Index: React.FC = () => {
         </section>
         
         {/* Final CTA Section */}
-        <section id="join-beta" className="py-16 md:py-24 px-6 relative text-center">
+        <section id="join-beta" className="py-12 sm:py-16 md:py-24 px-4 sm:px-6 relative text-center">
           <div className="absolute inset-0 z-0">
             <div className="absolute w-full h-full bg-ceres-purple/5 z-0"></div>
             <div className="absolute w-full h-1/3 bottom-0 bg-gradient-to-t from-background to-transparent z-1"></div>
