@@ -1,47 +1,50 @@
-
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { supabase } from "@/integrations/supabase/client";
+import { supabase } from '@/integrations/supabase/client';
 
 const EmailSignup: React.FC = () => {
   const [email, setEmail] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showCursor, setShowCursor] = useState(true);
-  
+
   useEffect(() => {
     const interval = setInterval(() => {
       setShowCursor(prev => !prev);
     }, 500);
-    
     return () => clearInterval(interval);
   }, []);
-  
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     // Basic email validation
     if (!email.includes('@') || email.trim().length < 5) {
       toast.error('Please enter a valid email address');
       return;
     }
-    
+
     setIsSubmitting(true);
-    
+
     try {
-      // Insert the email into the signupswarm table
+      // Insert the email into the signupswarm table.
       const { error } = await supabase
         .from('signupswarm')
         .insert([{ email: email.trim() }]);
-      
+
       if (error) {
-        console.error('Error saving email to Supabase:', error);
-        toast.error('Something went wrong. Please try again.');
+        // Check for duplicate key violation (Postgres error code 23505).
+        if (error.code === '23505') {
+          toast.error('This email is already signed up.');
+        } else {
+          console.error('Error saving email to Supabase:', error);
+          toast.error('Something went wrong. Please try again.');
+        }
       } else {
         setEmail('');
-        toast.success('Access granted. Welcome to CeresAI beta.');
+        toast.success('Welcome to CeresAI! You will hear from us soon.');
       }
     } catch (err) {
       console.error('Exception when saving email:', err);
@@ -50,7 +53,7 @@ const EmailSignup: React.FC = () => {
       setIsSubmitting(false);
     }
   };
-  
+
   return (
     <div className="w-full max-w-md mx-auto">
       <motion.form 
