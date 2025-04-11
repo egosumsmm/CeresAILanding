@@ -1,9 +1,10 @@
-import supabase from '@/utils/supabaseClient';
+
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { supabase } from "@/integrations/supabase/client";
 
 const EmailSignup: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -30,22 +31,21 @@ const EmailSignup: React.FC = () => {
     setIsSubmitting(true);
     
     try {
-      // Insert email into signupswarm table
+      // Insert the email into the signupswarm table
       const { error } = await supabase
         .from('signupswarm')
-        .insert([{ email }]);
-        
-      if (error) {
-        console.error('Error inserting email:', error);
-        toast.error('Failed to submit email. Please try again.');
-        return;
-      }
+        .insert([{ email: email.trim() }]);
       
-      setEmail('');
-      toast.success('Access granted. Welcome to CeresAI beta.');
+      if (error) {
+        console.error('Error saving email to Supabase:', error);
+        toast.error('Something went wrong. Please try again.');
+      } else {
+        setEmail('');
+        toast.success('Access granted. Welcome to CeresAI beta.');
+      }
     } catch (err) {
-      console.error('Error:', err);
-      toast.error('Failed to submit email. Please try again.');
+      console.error('Exception when saving email:', err);
+      toast.error('Connection error. Please try again later.');
     } finally {
       setIsSubmitting(false);
     }
