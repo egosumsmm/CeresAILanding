@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { supabase } from "@/integrations/supabase/client";
 
 const EmailSignup: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -18,7 +19,7 @@ const EmailSignup: React.FC = () => {
     return () => clearInterval(interval);
   }, []);
   
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     // Basic email validation
@@ -29,12 +30,25 @@ const EmailSignup: React.FC = () => {
     
     setIsSubmitting(true);
     
-    // Simulate API call
-    setTimeout(() => {
+    try {
+      // Insert the email into the signupswarm table
+      const { error } = await supabase
+        .from('signupswarm')
+        .insert([{ email: email.trim() }]);
+      
+      if (error) {
+        console.error('Error saving email to Supabase:', error);
+        toast.error('Something went wrong. Please try again.');
+      } else {
+        setEmail('');
+        toast.success('Access granted. Welcome to CeresAI beta.');
+      }
+    } catch (err) {
+      console.error('Exception when saving email:', err);
+      toast.error('Connection error. Please try again later.');
+    } finally {
       setIsSubmitting(false);
-      setEmail('');
-      toast.success('Access granted. Welcome to CeresAI beta.');
-    }, 1500);
+    }
   };
   
   return (

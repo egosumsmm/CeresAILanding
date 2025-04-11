@@ -44,12 +44,15 @@ export type Database = {
       }
       signupswarm: {
         Row: {
+          created_at: string | null
           email: string
         }
         Insert: {
+          created_at?: string | null
           email: string
         }
         Update: {
+          created_at?: string | null
           email?: string
         }
         Relationships: []
