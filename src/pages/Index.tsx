@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Header from '@/components/Header';
@@ -313,7 +312,7 @@ const Index: React.FC = () => {
               </p>
             </motion.div>
             
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+            <div className="flex justify-center space-x-8">
               {companions.map((companion, index) => (
                 <motion.div
                   key={companion.id}
@@ -344,6 +343,26 @@ const Index: React.FC = () => {
                   </motion.p>
                 </motion.div>
               ))}
+              <motion.div
+                className="flex flex-col items-center opacity-60 hover:opacity-90"
+                whileHover={{ scale: 1.05 }}
+              >
+                <HologramAvatar 
+                  imageUrl="/path-to-cool-image.png" // Replace with an actual image path
+                  name=""
+                  size="medium"
+                  active={false}
+                />
+                <motion.p
+                  className="text-sm text-center mt-12 text-gradient font-bold"
+                  initial={{ opacity: 0 }}
+                  whileInView={{ opacity: 1 }}
+                  transition={{ delay: companions.length * 0.1 + 0.3 }}
+                  viewport={{ once: true }}
+                >
+                  NEW! Create Your Own Avatar
+                </motion.p>
+              </motion.div>
             </div>
           </div>
         </section>
